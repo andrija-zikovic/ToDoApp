@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>To Do App</title>
+  </head>
+  <body>
+    <div id="app">
+      <body>
+        <header>
+          <h1>To Do App</h1>
+        </header>
+        <nav>
+          <form id="createForm">
+            <label
+              ><input
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Enter description..."
+                required
+            /></label>
+            <button class="create">Create To Do</button>
+          </form>
+          <h2>Your Tasks</h2>
+        </nav>
+        <main>
+          <div class="messageBox">
+            <div class="message"></div>
+          </div>
+          <div class="tableUi">
+            <div class="table">
+              <div class="tableHead">
+                <div><p>STAGE</p></div>
+                <div><p>DESCRIPTION</p></div>
+                <div><p>DATE</p></div>
+                <div></div>
+              </div>
+              <div class="tableBody"></div>
+              <div class="tableFoot"></div>
+            </div>
+          </div>
+        </main>
+        <div class="date"></div>
+      </body>
+    </div>
+    <script type="module" src="./functions.js"></script>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
