@@ -4,7 +4,7 @@ import {
   deleteToDo,
   renderTable,
   renderTime,
-} from "./functions";
+} from "./src/functions";
 
 // Rendering initial table
 renderTable();
