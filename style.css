@@ -18,15 +18,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
@@ -54,20 +45,19 @@ button {
   border-radius: 8px;
   border: 1px solid papayawhip;
   padding: 0.6em 1.2em;
-  font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  font-size: 1.2rem;
 }
 
-button:hover {
-  border-color: #646cff;
-}
+button:hover,
 button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+button:active {
+  border-color: #213547;
+  background-color: rgba(240, 248, 255, 0.571);
 }
 
 header {
@@ -78,22 +68,45 @@ header {
   max-width: 100dvw;
   text-align: center;
   padding: 1rem 0;
+  position: relative;
+  font-size: 1.8rem;
 }
 
 nav {
   display: flex;
   flex-flow: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  height: 40px;
   padding: 1rem 1rem;
   position: relative;
 }
 
-nav h2 {
-  position: absolute;
-  left: 40%;
-  width: 20%;
+.sortButtons {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.sortButtons button:nth-child(3) {
+  background-color: orange;
+}
+
+.sortButtons button:nth-child(3):hover,
+.sortButtons button:nth-child(3):focus,
+.sortButtons button:nth-child(3):active {
+  background-color: #ff8c008e;
+}
+
+.sortButtons button:last-child {
+  background-color: green;
+}
+
+.sortButtons button:last-child:hover,
+.sortButtons button:last-child:focus,
+.sortButtons button:last-child:active {
+  background-color: rgba(0, 128, 0, 0.582);
 }
 
 footer {
@@ -123,14 +136,15 @@ footer {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  font-size: 1.2rem;
 }
 
 .tableHead {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 25%);
-  font-size: 1.5rem;
   border-bottom: 1px solid papayawhip;
+  font-size: 1.5rem;
 }
 
 .tableHead div {
@@ -140,6 +154,29 @@ footer {
   align-items: center;
   padding: 0.5rem;
 }
+
+.tableHead div:nth-child(3) {
+  gap: 10px;
+}
+
+.sortDate {
+  height: auto;
+  width: auto;
+  border: unset;
+  background-color: unset;
+}
+
+.sortDate:hover,
+.sortDate:focus,
+.sortDate:active {
+  outline: 1px solid #213547;
+}
+
+.sortDate img {
+  width: 20px;
+  height: 20px;
+}
+
 .tableBodyRow div {
   padding: 0.5rem;
 }
@@ -150,7 +187,10 @@ footer {
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  font-size: 1.2rem;
+}
+
+.tableInfoBox {
+  padding: 1rem;
 }
 
 .tableBodyRow {
@@ -168,15 +208,19 @@ footer {
   align-items: center;
 }
 
+.sortDate {
+  padding: 0.1rem;
+}
+
 #description {
-  font-size: 1em;
   padding: 0.4rem;
   border: 1px solid papayawhip;
   border-radius: 0.3rem;
+  font-size: 1.2rem;
 }
 
 #description:hover {
-  border-color: #646cff;
+  border-color: #213547;
 }
 #description:focus,
 #description:focus-visible {
@@ -200,7 +244,7 @@ select {
 }
 
 select:hover {
-  border-color: #646cff;
+  border-color: #213547;
 }
 select:focus,
 select:focus-visible {
@@ -242,10 +286,51 @@ main {
   left: 10px;
   top: 10px;
   color: #213547;
-  font-weight: 500;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
   padding: 0.5rem;
-  font-size: 1.2rem;
   border-radius: 0.5rem;
+  background-color: papayawhip;
+  font-size: 1.6rem;
+  width: 198px;
+}
+
+.menu {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 27.5%;
+  right: 15px;
+  padding: 0.5rem;
+  background-color: papayawhip;
+  height: 45%;
+}
+
+.menu img {
+  width: 20px;
+  height: 20px;
+  fill: #213547;
+}
+
+.menuBox {
+  display: none;
+  visibility: hidden;
+  position: absolute;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 160px;
+  z-index: 1;
+  top: 99%;
+  right: 0;
+  padding: 0 1rem 1rem 1rem;
+  background-color: #213547;
+}
+
+.menuBox button {
+  width: 100%;
   background-color: papayawhip;
 }
 
@@ -254,9 +339,7 @@ main {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
+
   button {
     background-color: #f9f9f9;
     border: 1px solid black;
@@ -284,5 +367,83 @@ main {
   .tableBodyRow,
   .tableHead {
     border-bottom: 1px solid #213547;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .menu {
+    display: flex;
+  }
+
+  .menuBox {
+    display: flex;
+  }
+
+  .sortButtons {
+    display: none;
+  }
+
+  nav {
+    justify-content: flex-end;
+    border-bottom: 1px solid #213547;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  header {
+    font-size: 1rem;
+  }
+
+  .date {
+    display: none;
+  }
+
+  .tableBodyRow {
+    grid-template-columns: repeat(3, 33%);
+    padding: 1rem 0 1rem 0;
+  }
+
+  .tableBodyRow div:first-child {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    padding-bottom: unset;
+  }
+
+  .tableBodyRow div:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    padding-bottom: unset;
+  }
+
+  .tableBodyRow div:nth-child(2) {
+    grid-row: 1 / 2;
+    grid-column: 1 / 4;
+    font-weight: bold;
+  }
+
+  .tableBodyRow div:last-child {
+    grid-row: 2 / 3;
+    grid-column: 3 / 4;
+    padding-bottom: unset;
+  }
+
+  .tableHead {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1000px) and (min-width: 800px) {
+  .date {
+    font-size: 1rem;
+  }
+
+  header {
+    font-size: 1.1rem;
+  }
+
+  button {
+    font-size: 1rem;
   }
 }
