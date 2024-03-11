@@ -33,6 +33,7 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: papayawhip;
 }
 
 #app {
@@ -51,6 +52,8 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   font-size: 1.2rem;
+  background-color: papayawhip;
+  color: #213547;
 }
 
 button:hover,
@@ -160,10 +163,13 @@ footer {
 }
 
 .sortDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: auto;
   width: auto;
   border: unset;
-  background-color: unset;
+  background-color: papayawhip;
 }
 
 .sortDate:hover,
@@ -241,6 +247,8 @@ select {
   border-radius: 0.2rem;
   text-align: center;
   font-size: inherit;
+  background-color: papayawhip;
+  color: #213547;
 }
 
 select:hover {
@@ -352,6 +360,7 @@ main {
   }
   select {
     border: 1px solid black;
+    background-color: unset;
   }
   header {
     background-color: #213547;
@@ -367,6 +376,9 @@ main {
   .tableBodyRow,
   .tableHead {
     border-bottom: 1px solid #213547;
+  }
+  .sortDate {
+    background-color: unset;
   }
 }
 
