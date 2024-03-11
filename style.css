@@ -334,7 +334,7 @@ main {
   top: 99%;
   right: 0;
   padding: 0 1rem 1rem 1rem;
-  background-color: #213547;
+  background-color: #242424;
 }
 
 .menuBox button {
@@ -379,6 +379,9 @@ main {
   }
   .sortDate {
     background-color: unset;
+  }
+  .menuBox {
+    background-color: #213547;
   }
 }
 

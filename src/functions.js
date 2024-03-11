@@ -36,9 +36,7 @@ const deleteToDo = (id) => {
   const stage = select.value;
   // Checking stage progress "Done", "In Progress", "Pending"
   if (stage === "Done") {
-    console.log(toDos);
     const index = toDos.findIndex((td) => td.id === id);
-    console.log(index);
     const index2 = currentTable.findIndex((td) => td.id === id);
 
     toDos.splice(index, 1);

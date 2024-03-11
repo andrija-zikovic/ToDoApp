@@ -85,20 +85,15 @@ sortDate.addEventListener("click", function () {
 const menu = document.querySelector(".menu");
 const menuBox = document.querySelector(".menuBox");
 menu.addEventListener("click", function () {
-  console.log(menu);
-  console.log(menuBox);
   menuBox.setAttribute("style", "visibility: visible");
 });
 
 window.addEventListener("click", function (event) {
-  console.log(event.target);
   if (
     event.target !== menuBox &&
     event.target !== menu &&
     event.target !== menu.children[0]
   ) {
-    console.log(event.target);
-    console.log("click");
     menuBox.setAttribute("style", "visibility: hidden");
   }
 });
