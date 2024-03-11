@@ -6,12 +6,12 @@ import {
   renderTime,
   filterByStage,
   sortByDate,
-} from "./src/functions";
+} from "./todoHandler";
+import { Stage } from "./stage";
+import dayjs from "dayjs";
 
-// Rendering initial table
 renderTable();
 
-// Event listener for creating new ToDo
 const createForm = document.querySelector("#createForm");
 
 createForm.addEventListener("submit", function (event) {
@@ -20,14 +20,11 @@ createForm.addEventListener("submit", function (event) {
   const fromData = new FormData(createForm);
   const description = fromData.get("description");
 
-  // Creating new ToDo
   createToDo(description);
 
-  // Clearing input
   document.querySelector("#description").value = "";
 });
 
-// Event listener for delete button
 const deleteButtons = document.querySelectorAll(".deleteButton");
 
 deleteButtons.forEach((button) => {
@@ -36,28 +33,25 @@ deleteButtons.forEach((button) => {
   });
 });
 
-// Event listener for stage change
 const selectInputs = document.querySelectorAll(".selectInput");
 
 selectInputs.forEach((select) => {
   select.addEventListener("change", function (event) {
     const change = event.target.value;
 
-    // Changing stage
-    stageChange(change, select.id);
-
-    // Changing background color of select element
-    if (change === "Done") {
+    if (change === "DONE") {
+      stageChange(Stage.DONE, select.id);
       select.style.background = "green";
-    } else if (change === "In Progress") {
+    } else if (change === "IN_PROGRESS") {
+      stageChange(Stage.IN_PROGRESS, select.id);
       select.style.background = "orange";
     } else {
+      stageChange(Stage.PENDING, select.id);
       select.style.background = "";
     }
   });
 });
 
-// Sorting table
 const sortButtons = document.querySelectorAll(".sort");
 sortButtons.forEach((button) => {
   button.addEventListener("click", function () {
@@ -67,13 +61,13 @@ sortButtons.forEach((button) => {
   });
 });
 
-// Rendering time
-setInterval(() => {
+window.addEventListener("load", (event) => {
+  const now = dayjs().toDate().toLocaleString();
   const dateElement = document.querySelector(".date");
-  dateElement.textContent = renderTime();
-}, 1000);
+  dateElement.textContent = now;
+  renderTime();
+});
 
-// Sorting by date
 const sortDate = document.querySelector(".sortDate");
 
 sortDate.addEventListener("click", function () {

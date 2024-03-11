@@ -3,11 +3,9 @@ import { v4 as uuidv4 } from "uuid";
 import downArrow from "./icons/downArrow.svg";
 import upArrow from "./icons/upArrow.svg";
 
-// Getting tabel body elements from the DOM
 const tableBody = document.querySelector(".tableBody");
 let currentTable = [];
 
-// Function for message rendering
 const renderMessage = (message) => {
   const messageBoxElement = document.querySelector(".messageBox");
   const messageElement = document.querySelector(".message");
@@ -20,21 +18,17 @@ const renderMessage = (message) => {
   }, 2000);
 };
 
-// Function for getting ToDos from local storage
 const getLocalToDos = () => {
   const storeData = localStorage.getItem("toDos");
   return storeData ? JSON.parse(storeData) : [];
 };
 
-// Getting ToDos from local storage
 let toDos = getLocalToDos();
 
-// Function for deleting ToDo
 const deleteToDo = (id) => {
-  // Getting select element by id for checking stage progress "Done", "In Progress", "Pending"
   const select = document.querySelector(`#select${id}`);
   const stage = select.value;
-  // Checking stage progress "Done", "In Progress", "Pending"
+
   if (stage === "Done") {
     const index = toDos.findIndex((td) => td.id === id);
     const index2 = currentTable.findIndex((td) => td.id === id);
@@ -47,12 +41,10 @@ const deleteToDo = (id) => {
     const rowToDelete = document.querySelector(`#row${id}`);
     rowToDelete.remove();
   } else {
-    // If stage is not "Done" render message
     renderMessage("You can't delete To Do until stage is Done!");
   }
 };
 
-// Function for returning option index so we can set select element to the right option
 const returnOptionIndex = (option) => {
   if (option === "Pending") {
     return 0;
@@ -65,35 +57,37 @@ const returnOptionIndex = (option) => {
   }
 };
 
-// Function for formating date
+const options = {
+  PENDING: "Pending",
+  IN_PROGRESS: "In Progress",
+  DONE: "Done",
+};
+
 const formatDate = (timestemp) => {
   return dayjs(timestemp).format("DD. MM. YYYY. HH:mm");
 };
 
-// Function for creating table row content
 const createTableRowContent = (element) => {
-  // Creating Table Row
   const tableRow = createDiv();
   tableRow.className = "tableBodyRow";
   tableRow.setAttribute("id", `row${element.id}`);
 
-  // Creating Table Row Stage Select Column
   const stage = createDiv();
   const select = document.createElement("select");
 
   select.setAttribute("id", `select${element.id}`);
   select.className = "selectInput";
 
-  options.forEach((option) => {
+  for (let key in options) {
+    if (!options.hasOwnProperty(key)) continue;
     const optionElement = document.createElement("option");
-    optionElement.setAttribute("value", option);
-    optionElement.textContent = option;
+    optionElement.setAttribute("value", key);
+    optionElement.textContent = options[key];
     select.appendChild(optionElement);
-  });
+  }
 
   select.selectedIndex = returnOptionIndex(element.stage);
 
-  // Changing color of select elemet by progress "Done", "In Progress", "Pending"
   if (element.stage === "Done") {
     select.style.background = "green";
   } else if (element.stage === "In Progress") {
@@ -102,7 +96,6 @@ const createTableRowContent = (element) => {
     select.style.background = "";
   }
 
-  // Adding event listener for new select
   select.addEventListener("change", function (event) {
     const change = event.target.value;
     stageChange(change, select.id);
@@ -118,17 +111,14 @@ const createTableRowContent = (element) => {
   stage.appendChild(select);
   tableRow.appendChild(stage);
 
-  // Creating Table Row Description Colum
   const description = createDiv();
   description.textContent = element.description;
   tableRow.appendChild(description);
 
-  // Creating Table Row Create At Column
   const date = createDiv();
   date.textContent = formatDate(element.created_at);
   tableRow.appendChild(date);
 
-  // Creating Table Row Delete Button Column
   const deleteBox = createDiv();
   const deleteButton = document.createElement("button");
 
@@ -136,7 +126,6 @@ const createTableRowContent = (element) => {
   deleteButton.className = "deleteButton";
   deleteButton.textContent = "DELETE";
 
-  // Adding new event listener for delete button
   deleteButton.addEventListener("click", function () {
     deleteToDo(element.id);
   });
@@ -144,12 +133,10 @@ const createTableRowContent = (element) => {
   deleteBox.appendChild(deleteButton);
   tableRow.appendChild(deleteBox);
 
-  // Adding Table Row to the table
   const firstChilde = tableBody.firstChild;
   tableBody.insertBefore(tableRow, firstChilde);
 };
 
-// Function for rendering table
 const renderTable = (
   newTable = getLocalToDos(),
   message = "No ToDos to show!"
@@ -166,58 +153,55 @@ const renderTable = (
   }
 };
 
-// Function for creating new ToDo
 const createToDo = (text) => {
   let now = dayjs().valueOf();
 
   const data = {
     id: uuidv4(),
     description: text,
-    stage: "Pending",
+    stage: Object.freeze({
+      PENDING: "Pending",
+      IN_PROGRESS: "In Progress",
+      DONE: "Done",
+    }).PENDING,
     created_at: now,
   };
 
   toDos.push(data);
   currentTable.push(data);
 
-  // Saving new ToDo to local storage
   saveToDosToLocal();
 
-  // Creating new row in the table with new ToDo
   createTableRowContent(data, tableBody);
 };
 
-// Function for changing stage of ToDo
 const stageChange = (newStage, id) => {
   const realId = id.slice(6);
   const index = toDos.find((td) => td.id === realId);
   const index2 = currentTable.find((td) => td.id === realId);
+  console.log(newStage);
   index.stage = newStage;
   index2.stage = newStage;
-  // Saving new stage to local storage
+
   saveToDosToLocal();
 };
 
-// Function for saving ToDos to local storage
 const saveToDosToLocal = () => {
   localStorage.setItem("toDos", JSON.stringify(toDos));
 };
 
-// Array of options for select element
-const options = ["Pending", "In Progress", "Done"];
-
-// Function for creating new div element
 const createDiv = () => {
   return document.createElement("div");
 };
 
-// Function for rendering time
 const renderTime = () => {
-  const now = dayjs().toDate().toLocaleString();
-  return now;
+  setInterval(() => {
+    const now = dayjs().toDate().toLocaleString();
+    const dateElement = document.querySelector(".date");
+    dateElement.textContent = now;
+  }, 1000);
 };
 
-// Function for filtering ToDos by stage
 const filterByStage = (byStage) => {
   if (byStage === "All") {
     renderTable(toDos), "No ToDos to show!";
@@ -227,7 +211,6 @@ const filterByStage = (byStage) => {
   }
 };
 
-// Sorting table by date
 const sortByDate = (sort, element) => {
   if (sort === "Newest") {
     currentTable.sort((a, b) => {
