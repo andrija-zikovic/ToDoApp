@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
 import downArrow from "./icons/downArrow.svg";
 import upArrow from "./icons/upArrow.svg";
+import { Stage } from "./stage";
 
 const tableBody = document.querySelector(".tableBody");
 let currentTable = [];
@@ -29,7 +30,7 @@ const deleteToDo = (id) => {
   const select = document.querySelector(`#select${id}`);
   const stage = select.value;
 
-  if (stage === "Done") {
+  if (stage === "DONE") {
     const index = toDos.findIndex((td) => td.id === id);
     const index2 = currentTable.findIndex((td) => td.id === id);
 
@@ -98,12 +99,14 @@ const createTableRowContent = (element) => {
 
   select.addEventListener("change", function (event) {
     const change = event.target.value;
-    stageChange(change, select.id);
-    if (change === "Done") {
+    if (change === "DONE") {
+      stageChange(Stage.DONE, select.id);
       select.style.background = "green";
-    } else if (change === "In Progress") {
+    } else if (change === "IN_PROGRESS") {
+      stageChange(Stage.IN_PROGRESS, select.id);
       select.style.background = "orange";
     } else {
+      stageChange(Stage.PENDING, select.id);
       select.style.background = "";
     }
   });
@@ -155,15 +158,10 @@ const renderTable = (
 
 const createToDo = (text) => {
   let now = dayjs().valueOf();
-
   const data = {
     id: uuidv4(),
     description: text,
-    stage: Object.freeze({
-      PENDING: "Pending",
-      IN_PROGRESS: "In Progress",
-      DONE: "Done",
-    }).PENDING,
+    stage: Stage.PENDING,
     created_at: now,
   };
 
@@ -172,6 +170,9 @@ const createToDo = (text) => {
 
   saveToDosToLocal();
 
+  console.log("TODOS", toDos);
+  console.log("CURRENT TABLE", currentTable);
+
   createTableRowContent(data, tableBody);
 };
 
@@ -179,7 +180,6 @@ const stageChange = (newStage, id) => {
   const realId = id.slice(6);
   const index = toDos.find((td) => td.id === realId);
   const index2 = currentTable.find((td) => td.id === realId);
-  console.log(newStage);
   index.stage = newStage;
   index2.stage = newStage;
 

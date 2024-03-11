@@ -36,26 +36,29 @@ deleteButtons.forEach((button) => {
 const selectInputs = document.querySelectorAll(".selectInput");
 
 selectInputs.forEach((select) => {
-  select.addEventListener("change", function (event) {
-    const change = event.target.value;
-
-    if (change === "DONE") {
-      stageChange(Stage.DONE, select.id);
-      select.style.background = "green";
-    } else if (change === "IN_PROGRESS") {
-      stageChange(Stage.IN_PROGRESS, select.id);
-      select.style.background = "orange";
-    } else {
-      stageChange(Stage.PENDING, select.id);
-      select.style.background = "";
-    }
-  });
+  if (!select.dataset.listenerAttached) {
+    select.addEventListener("change", function (event) {
+      const change = event.target.value;
+      console.log(change);
+      if (change === "DONE") {
+        stageChange(Stage.DONE, select.id);
+        select.style.background = "green";
+      } else if (change === "IN_PROGRESS") {
+        stageChange(Stage.IN_PROGRESS, select.id);
+        select.style.background = "orange";
+      } else {
+        stageChange(Stage.PENDING, select.id);
+        select.style.background = "";
+      }
+    });
+    select.dataset.listenerAttached = true;
+  }
 });
 
 const sortButtons = document.querySelectorAll(".sort");
 sortButtons.forEach((button) => {
   button.addEventListener("click", function () {
-    const sortType = button.value;
+    const sortType = button.textContent;
 
     filterByStage(sortType);
   });
